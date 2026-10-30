@@ -1,0 +1,10 @@
+{
+  "host": "127.0.0.1",
+  "port": 8089,
+  "world_config": "../server/etc/worldserver.conf",
+  "registration_enabled": true,
+  "secure_cookies": false,
+  "session_hours": 8,
+  "world_snapshot": "../server/run/website-world.csv",
+  "snapshot_max_age": 30
+}

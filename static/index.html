@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0c141b">
+    <meta name="description" content="AzerothCore 玩家中心：注册游戏账号、登录并查看你的角色。">
+    <title>AzerothCore · 玩家中心</title>
+    <link rel="icon" href="/assets/crest.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/style.css">
+    <script src="/assets/app.js" defer></script>
+</head>
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <a class="brand" href="/" aria-label="AzerothCore 玩家中心首页">
+                <img src="/assets/crest.svg" width="42" height="42" alt="">
+                <span>AZEROTH<span class="brand-gold">CORE</span><small>玩家中心</small></span>
+            </a>
+            <div class="header-right">
+                <span class="version-tag">巫妖王之怒 <span>3.3.5a</span></span>
+                <button id="logout" class="text-button" hidden>退出登录 <span aria-hidden="true">↗</span></button>
+            </div>
+        </header>
+
+        <main>
+            <section id="auth-view" class="auth-layout" aria-label="账号登录与注册">
+                <div class="intro">
+                    <p class="eyebrow"><span></span> YOUR JOURNEY STARTS HERE</p>
+                    <h1>下一段冒险，<br>从<span>这里</span>开始。</h1>
+                    <p class="intro-description">重返艾泽拉斯，与熟悉的世界再次相遇。<br>一个账号，连接你的每一段旅程。</p>
+                    <div class="landscape" aria-hidden="true">
+                        <div class="aurora"></div>
+                        <div class="moon"></div>
+                        <svg viewBox="0 0 620 260" fill="none">
+                            <path d="M0 190 L70 146 L119 165 L212 74 L245 103 L276 58 L349 131
+                                     L408 96 L480 177 L550 146 L620 183 V260 H0Z"
+                                  fill="#182b34"/>
+                            <path d="M173 112L212 74L245 103L276 58L318 107L278 86L268 104L243 122L215 100Z"
+                                  fill="#40535a"/>
+                            <path d="M0 228 L71 198 L146 223 L202 167 L239 188 L279 147 L345 201
+                                     L411 170 L486 220 L559 179 L620 205 V260 H0Z"
+                                  fill="#10222b"/>
+                            <path d="M370 200 V146 L382 130 L394 146 V159 H407 V120 L419 95 L431 120
+                                     V154 H442 V135 L454 116 L466 135 V200Z"
+                                  fill="#09151e"/>
+                            <path d="M0 252 L85 232 L166 245 L250 221 L360 233 L449 208 L523 232 L620 216 V260 H0Z"
+                                  fill="#0c141b"/>
+                            <path d="M417 126 H422 V139 H417Z M380 152 H385 V162 H380Z M452 141 H457 V152 H452Z"
+                                  fill="#b8995b" opacity=".65"/>
+                        </svg>
+                        <div class="landscape-caption"><span>AZEROTH</span><span>一切冒险的起点</span></div>
+                    </div>
+                    <div class="intro-details">
+                        <span><i aria-hidden="true">◇</i> 经典世界</span>
+                        <span><i aria-hidden="true">◇</i> 十大职业</span>
+                        <span><i aria-hidden="true">◇</i> 你的冒险</span>
+                    </div>
+                </div>
+
+                <section class="auth-card" aria-labelledby="auth-title">
+                    <div class="card-label">ACCOUNT PORTAL <span aria-hidden="true">✦</span></div>
+                    <h2 id="auth-title">欢迎回来</h2>
+                    <p id="auth-description" class="muted">登录游戏账号，查看你的艾泽拉斯角色。</p>
+                    <div class="tabs" role="tablist" aria-label="选择登录或注册">
+                        <button id="login-tab" role="tab" aria-selected="true" aria-controls="form-panel">登录账号</button>
+                        <button id="register-tab" role="tab" aria-selected="false" aria-controls="form-panel"
+                                tabindex="-1">创建账号</button>
+                    </div>
+                    <form id="account-form" aria-busy="true">
+                        <div id="form-panel" role="tabpanel" aria-labelledby="login-tab">
+                            <label for="username">账号名称</label>
+                            <input id="username" name="username" type="text" required maxlength="17"
+                                   autocomplete="username" autocapitalize="none" spellcheck="false"
+                                   placeholder="输入游戏账号" aria-describedby="username-hint" disabled>
+                            <p id="username-hint" class="field-hint">与游戏客户端使用同一个账号。</p>
+                            <label for="password">密码</label>
+                            <div class="password-field">
+                                <input id="password" name="password" type="password" required maxlength="16"
+                                       autocomplete="current-password" placeholder="输入密码" disabled>
+                                <button type="button" id="toggle-password" class="show-password"
+                                        aria-label="显示密码" aria-pressed="false" disabled>显示</button>
+                            </div>
+                            <div id="confirm-field" hidden>
+                                <label for="confirm-password">确认密码</label>
+                                <input id="confirm-password" name="confirm-password" type="password" maxlength="16"
+                                       autocomplete="new-password" placeholder="再次输入密码">
+                            </div>
+                            <p id="form-message" class="form-message" role="status" aria-live="polite">正在连接服务…</p>
+                            <button id="submit-button" type="submit" class="primary-button" disabled>
+                                <span id="submit-label">登录账号</span><span aria-hidden="true">→</span>
+                            </button>
+                            <button id="retry-connection" type="button" class="retry-button" hidden>重新连接</button>
+                        </div>
+                    </form>
+                    <div class="account-note">
+                        <svg width="18" height="20" viewBox="0 0 20 22" fill="none" aria-hidden="true">
+                            <path d="M10 2L17 5V11C17 15 14 18 10 20C6 18 3 15 3 11V5L10 2Z"
+                                  stroke="currentColor" stroke-width="1.4"/>
+                            <path d="M6 10L9 13L14 8" stroke="currentColor" stroke-width="1.4"/>
+                        </svg>
+                        <p id="account-note">网站与游戏共用账号，密码不区分大小写。</p>
+                    </div>
+                </section>
+            </section>
+
+            <section id="dashboard" class="dashboard" hidden aria-label="玩家中心">
+                <nav class="portal-nav" aria-label="玩家中心页面">
+                    <a href="#characters" id="nav-characters" aria-current="page">我的角色</a>
+                    <a href="#bots" id="nav-bots" hidden>机器人状态</a>
+                    <a href="#players" id="nav-players" hidden>世界玩家</a>
+                    <a href="#bot-settings" id="nav-bot-settings" hidden>机器人对话设置</a>
+                    <span id="account-role" class="role-badge"></span>
+                </nav>
+                <div id="characters-page" aria-labelledby="dashboard-title">
+                <div class="dashboard-heading">
+                    <div>
+                        <p class="eyebrow">YOUR CHARACTERS</p>
+                        <h1 id="dashboard-title">我的角色<span>.</span></h1>
+                        <p class="muted"><span id="account-name"></span><span class="separator">/</span>
+                            <span id="realm-name">AzerothCore</span></p>
+                    </div>
+                    <button id="refresh-characters" class="secondary-button">
+                        <span aria-hidden="true">↻</span> 刷新角色
+                    </button>
+                </div>
+                <div class="summary" aria-label="角色统计">
+                    <div><span class="summary-label">全部角色</span><strong id="total-characters">—</strong></div>
+                    <div><span class="summary-label">最高等级</span><strong id="highest-level">—</strong></div>
+                    <div><span class="summary-label">当前在线</span><strong id="online-characters">—</strong></div>
+                    <p>每一个名字，<br>都是一段属于你的故事。</p>
+                </div>
+                <div class="roster-heading"><h2>角色档案</h2><span>职业标识使用游戏职业颜色</span></div>
+                <p id="dashboard-message" class="dashboard-message" role="status" aria-live="polite"></p>
+                <div id="character-list" class="character-grid"></div>
+                <div id="empty-state" class="empty-state" hidden>
+                    <span class="empty-symbol" aria-hidden="true">◇</span>
+                    <h2>你的冒险，即将开始</h2>
+                    <p>这个账号还没有角色。登录游戏创建第一个角色，<br>再回到这里刷新，就能查看你的角色档案。</p>
+                </div>
+                <div class="class-legend" aria-label="职业颜色对照">
+                    <span class="legend-title">职业颜色</span>
+                    <span class="class-1">战士</span><span class="class-2">圣骑士</span>
+                    <span class="class-3">猎人</span><span class="class-4">潜行者</span>
+                    <span class="class-5">牧师</span><span class="class-6">死亡骑士</span>
+                    <span class="class-7">萨满祭司</span><span class="class-8">法师</span>
+                    <span class="class-9">术士</span><span class="class-11">德鲁伊</span>
+                </div>
+                </div>
+                <section id="bot-settings-page" hidden aria-labelledby="bot-settings-title">
+                    <div class="dashboard-heading">
+                        <div>
+                            <p class="eyebrow">PLAYERBOTS CHAT</p>
+                            <h1 id="bot-settings-title">机器人对话设置<span>.</span></h1>
+                            <p class="muted">管理千问中文私聊使用的 API key。</p>
+                        </div>
+                        <button id="refresh-bot-settings" class="secondary-button">↻ 刷新设置</button>
+                    </div>
+                    <div class="bot-settings-card">
+                        <p class="bot-settings-model">阿里千问 <strong>Qwen3.8-Flash</strong></p>
+                        <p id="bot-key-status" class="telemetry-note">正在读取配置状态…</p>
+                        <form id="bot-settings-form" aria-busy="false">
+                            <label for="bot-api-key">新的 API key</label>
+                            <input id="bot-api-key" name="api_key" type="password" minlength="16" maxlength="512"
+                                   required autocomplete="new-password" spellcheck="false" autocapitalize="none"
+                                   placeholder="输入千问 API key" aria-describedby="bot-key-hint" disabled>
+                            <p id="bot-key-hint" class="field-hint">已保存的完整密钥不会回显。输入新密钥可以替换。</p>
+                            <div class="bot-settings-actions">
+                                <button id="save-bot-key" type="submit" class="secondary-button" disabled>保存密钥</button>
+                                <button id="clear-bot-key" type="button" class="text-button" disabled>清除密钥</button>
+                            </div>
+                        </form>
+                        <p id="bot-settings-message" class="dashboard-message" role="status" aria-live="polite"></p>
+                        <p class="muted bot-settings-note">保存后供后续对话使用，无需重启游戏服务。清除后停止发起新的模型请求。</p>
+                    </div>
+                </section>
+                <section id="monitor-page" hidden aria-labelledby="monitor-title">
+                    <div class="dashboard-heading">
+                        <div>
+                            <p class="eyebrow" id="monitor-eyebrow">WORLD OBSERVATORY</p>
+                            <h1 id="monitor-title">机器人状态<span>.</span></h1>
+                            <p class="muted" id="monitor-description"></p>
+                        </div>
+                        <button id="refresh-monitor" class="secondary-button">↻ 刷新状态</button>
+                    </div>
+                    <div class="monitor-summary" aria-label="世界状态统计">
+                        <div><span>当前在线</span><strong id="monitor-online">—</strong></div>
+                        <div><span id="monitor-stat-label">战斗中</span><strong id="monitor-active">—</strong></div>
+                        <div><span id="monitor-third-label">与玩家组队</span><strong id="monitor-grouped">—</strong></div>
+                    </div>
+                    <p id="monitor-message" class="dashboard-message" role="status" aria-live="polite"></p>
+                    <p id="telemetry-note" class="telemetry-note"></p>
+                    <div class="monitor-filters">
+                        <div class="filter-search"><label for="monitor-search">搜索</label>
+                            <input id="monitor-search" type="search" maxlength="80" placeholder="名字、职业或所在地"></div>
+                        <div><label for="monitor-faction">阵营</label><select id="monitor-faction">
+                            <option value="">全部阵营</option><option>联盟</option><option>部落</option></select></div>
+                        <div id="activity-filter"><label for="monitor-activity">活动状态</label><select id="monitor-activity">
+                            <option value="">全部状态</option><option value="combat">战斗</option>
+                            <option value="quest">做任务</option><option value="patrol">巡逻</option>
+                            <option value="grind">打怪练级</option><option value="travel">赶路</option>
+                            <option value="rest">休息</option><option value="gather">采集</option>
+                            <option value="flight">飞行</option><option value="battleground">战场</option>
+                            <option value="outdoor_pvp">野外 PvP</option><option value="dead">死亡</option>
+                            <option value="idle">待机</option><option value="unknown">暂无实时状态</option>
+                            <option value="offline">离线</option></select></div>
+                        <div id="group-filter"><label for="monitor-group">玩家组队</label><select id="monitor-group">
+                            <option value="">全部</option><option value="yes">正在与玩家组队</option>
+                            <option value="no">未与玩家组队</option><option value="unknown">尚未确认</option></select></div>
+                        <div id="online-filter"><label for="monitor-presence">在线状态</label><select id="monitor-presence">
+                            <option value="online">在线机器人</option><option value="">全部机器人</option>
+                            <option value="offline">离线机器人</option></select></div>
+                    </div>
+                    <div class="monitor-table-wrap" tabindex="0" role="region" aria-label="世界状态列表，可横向滚动">
+                        <table class="monitor-table">
+                            <caption id="monitor-caption">机器人状态列表</caption>
+                            <thead><tr><th scope="col">角色</th><th scope="col">阵营</th><th scope="col">职业 / 等级</th>
+                                <th scope="col">所在地</th><th scope="col" id="status-heading">活动状态</th>
+                                <th scope="col" id="group-heading">与玩家组队</th></tr></thead>
+                            <tbody id="monitor-rows"></tbody>
+                        </table>
+                    </div>
+                    <div id="monitor-empty" class="empty-state" hidden>
+                        <span class="empty-symbol" aria-hidden="true">◇</span><h2 id="monitor-empty-title">暂无在线角色</h2>
+                        <p id="monitor-empty-description">状态会在角色上线后自动更新。</p>
+                    </div>
+                    <div class="monitor-pagination">
+                        <span id="monitor-count" role="status"></span>
+                        <div><button id="monitor-prev" class="text-button">上一页</button>
+                            <span id="monitor-page-number"></span><button id="monitor-next" class="text-button">下一页</button></div>
+                    </div>
+                    <p class="muted monitor-refresh-note">每 10 秒自动刷新 · 页面隐藏时暂停刷新</p>
+                </section>
+            </section>
+            <noscript><p class="noscript">请启用浏览器 JavaScript，以使用账号注册、登录和角色查询。</p></noscript>
+        </main>
+
+        <footer class="site-footer">
+            <span>AZEROTHCORE <span class="footer-dot">·</span> 艾泽拉斯玩家中心</span>
+            <span>FOR THE ADVENTURE.</span>
+        </footer>
+    </div>
+</body>
+</html>
